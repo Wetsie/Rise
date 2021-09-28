@@ -1,0 +1,9 @@
+export const WHITE = "#FDF5F1";
+export const PURE_WHITE = "#fff";
+export const BLACK = "#343434";
+export const GRAY = "#ACACAC";
+export const LBLUE = "#B8E3EA";
+export const DBLUE = "#0564F2";
+export const RED = "#FB5757";
+export const DARK_MODE_MAIN = "#0D0D0D20";
+export const YELLOW = "#DEB030";

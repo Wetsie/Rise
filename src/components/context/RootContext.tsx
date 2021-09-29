@@ -4,6 +4,8 @@ import { ModesRelatedType } from "_utils/RootComponentUtils";
 import I18n from "i18n-js";
 
 const RootContext = React.createContext<ModesRelatedType>({
+	alarmSound: new Audio.Sound(),
+
 	onCountdownFinish: () => null,
 	onPomodoroFinish: () => null,
 	onInfiniteFinish: () => null,
@@ -23,6 +25,7 @@ const RootContext = React.createContext<ModesRelatedType>({
 		dateOfBirth: "",
 		balance: 0,
 		purchases: [],
+		proVersion: false,
 		stat: {
 			focus: 0,
 			meditation: 0,

@@ -43,7 +43,10 @@ const CreateModeOption = ({ item, onPress, index }: {
 						setFunc={boolSetFunc ?? (() => null)}
 						animValue={valueToChange as Animated.SharedValue<boolean>}
 					/> :
-					<ReText text={reText} style={styles.optionDataTextStyle} />
+					<ReText
+						text={reText}
+						style={styles.optionDataTextStyle}
+					/>
 			}
 		</Pressable>
 	);

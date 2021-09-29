@@ -53,9 +53,10 @@ import googleServices from "../android/app/google-services.json";
 import FetchDataContext from "_components/context/FetchDataContext";
 import FetchData from "_components/molecules/FetchData";
 import { changeStat } from "_utils/TimerFunctions";
-import { setWasHappyBirthdayToggled } from "_utils/mmkv/MmkvSetFunctions";
+import { setMmkvSystemAlarmsObject, setWasHappyBirthdayToggled } from "_utils/mmkv/MmkvSetFunctions";
 import { FOCUS_IMMERSIVE_MODE_HANDLER_KEY, MAIN_CHANNEL_NAME, MAIN_CHANNEL_ID, focusEndedAheadOfTimeNotif, napEndedAheadOfTimeNotif, meditationEndedAheadOfTimeNotif, connectInAppPayments } from "_utils/Constants";
 import { AppStateService } from "_utils/AppStateService";
+import AlarmModule from "_utils/nativeModules/AlarmModule";
 
 LogBox.ignoreLogs(["Constants.manifest", "Require cycles are allowed", "Cannot complete operation because sound is not loaded", "Constants.installationId", "Constants.deviceId", "Constants.linkingUrl"]);
 
@@ -279,6 +280,12 @@ const App = (): JSX.Element => {
 	//#region lifecycle 
 	useEffect(() => {
 		if (isSignedIn) {
+			if (!Object.keys(systemAlarmsObject).length) {
+				AlarmModule.getAlarms(data => {
+					setSystemAlarmsObject(data);
+					setMmkvSystemAlarmsObject(data);
+				});
+			}
 			connectInAppPayments(userInfo);
 		}
 	}, [isSignedIn]);
@@ -500,16 +507,14 @@ const App = (): JSX.Element => {
 	}, [isTimerOn]);
 	//#endregion
 
-	if ((!swipeTextSize || uploadProfileImageToServer) && isSignedIn) {
+	if ((!Object.keys(systemAlarmsObject).length || !swipeTextSize || uploadProfileImageToServer) && isSignedIn) {
 		return (
 			<FetchDataContext.Provider
 				value={{
-					setSystemAlarmsObject,
 					setSwipeTextSize,
 					setProfileImageProgress,
 					setProfileImage,
 					setUploadProfileImageToServer,
-					systemAlarmsObject,
 					profileImageProgress,
 					uploadProfileImageToServer,
 					profileImageUri,
@@ -524,6 +529,8 @@ const App = (): JSX.Element => {
 		<SafeAreaProvider>
 			<RootContext.Provider
 				value={{
+					alarmSound,
+					
 					onCountdownFinish,
 					onPomodoroFinish,
 					onInfiniteFinish,

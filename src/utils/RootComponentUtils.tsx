@@ -88,6 +88,8 @@ export const arrayEquals = (arr1: unknown[], arr2: unknown[]): boolean => {
 };
 
 export interface ModesRelatedType {
+	alarmSound: Audio.Sound,
+	
 	onCountdownFinish: () => void,
 	onPomodoroFinish: () => void,
 	onInfiniteFinish: () => void,

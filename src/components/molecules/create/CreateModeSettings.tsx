@@ -53,11 +53,9 @@ const CreateModeSettings = (): JSX.Element => {
 			<Modalize
 				ref={modalRef}
 				withHandle={false}
-				adjustToContentHeight={true}
 				onOverlayPress={onOverlayPress}
 				overlayStyle={styles.overlayStyle}
 				modalStyle={styles.modalStyle}
-				panGestureEnabled={false}
 				scrollViewProps={{
 					showsVerticalScrollIndicator: false,
 					overScrollMode: "never",
@@ -65,7 +63,7 @@ const CreateModeSettings = (): JSX.Element => {
 			>
 				{
 					typeof arrayToMap[0] == "string" ? 
-						<RingtoneChoose/> :
+						<RingtoneChoose /> :
 						<ModeOptionChooseContent />
 				}
 			</Modalize>

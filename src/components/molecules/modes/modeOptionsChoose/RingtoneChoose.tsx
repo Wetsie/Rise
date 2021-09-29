@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import { Pressable, StyleSheet, View } from "react-native";
 
 import CustomText from "_components/atoms/CustomText";
@@ -9,18 +9,35 @@ import { WHITE } from "_styles/colors";
 import { CONTENT_PADDING } from "_styles/spacing";
 import { FONT_SIZE_20 } from "_styles/typography";
 import { setRingtone } from "_utils/mmkv/MmkvSetFunctions";
+import { loadSoundFromPhone } from "_utils/ModeSoundsListProps";
 import { useStateSafe } from "_utils/useStateSafe";
 
 const RingtoneChoose = (): JSX.Element => {
 	const { arrayToMap } = useContext(CreateModeSettingsContext);
-	const { napRingtone } = useContext(RootContext);
+	const { napRingtone, alarmSound, volume, systemAlarmsObject } = useContext(RootContext);
 	const [activeRingtone, setActiveRingtone] = useStateSafe(napRingtone.value);
+	const [isRingtonePlaying, setIsRingtonePlaying] = useStateSafe(false);
 
-	const onPress = (item: string) => {
+	const onPress = async (item: string) => {
+		if (isRingtonePlaying) {
+			await alarmSound.unloadAsync();
+		}
+		loadSoundFromPhone({
+			sound: alarmSound,
+			volume: volume.value,
+			uri: systemAlarmsObject[item]
+		});
+		setIsRingtonePlaying(true);
 		setActiveRingtone(item);
 		napRingtone.value = item;
 		setRingtone(item);
 	};
+
+	useEffect(() => {
+		return () => {
+			alarmSound.unloadAsync();
+		};
+	}, []);
 
 	return (
 		<View style={styles.mainContainer}>

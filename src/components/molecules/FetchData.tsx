@@ -11,18 +11,15 @@ import CustomText from "_components/atoms/CustomText";
 import FetchDataContext from "_components/context/FetchDataContext";
 import { DBLUE } from "_styles/colors";
 import { FONT_SIZE_50 } from "_styles/typography";
-import { setMmkvProfileImage, setMmkvSwipeTextSize, setMmkvSystemAlarmsObject, setMmkvUploadProfileImageToServer } from "_utils/mmkv/MmkvSetFunctions";
+import { setMmkvProfileImage, setMmkvSwipeTextSize, setMmkvUploadProfileImageToServer } from "_utils/mmkv/MmkvSetFunctions";
 import { loadProfileImageFromServer } from "_utils/Firebase";
-import AlarmModule from "_utils/nativeModules/AlarmModule";
 
 const FetchData = (): JSX.Element => {
 	const {
-		setSystemAlarmsObject,
 		setSwipeTextSize,
 		setProfileImageProgress,
 		setProfileImage,
 		setUploadProfileImageToServer,
-		systemAlarmsObject,
 		profileImageProgress,
 		uploadProfileImageToServer,
 		profileImageUri,
@@ -33,12 +30,6 @@ const FetchData = (): JSX.Element => {
 
 	useEffect(() => {
 		if (profileImageProgress === 1) { // download a photo from the server, if the upload to the server is finished
-			if (!Object.keys(systemAlarmsObject).length) {
-				AlarmModule.getAlarms(data => {
-					setSystemAlarmsObject(data);
-					setMmkvSystemAlarmsObject(data);
-				});
-			}
 			loadProfileImageFromServer(
 				(url) => {
 					const image = Asset.fromModule(url);

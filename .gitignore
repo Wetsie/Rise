@@ -31,6 +31,8 @@ local.properties
 
 # node.js
 #
+android/
+ios/
 src/utils/mmkv/
 src/utils/Firebase.tsx
 src/utils/SoundsList.tsx

@@ -31,6 +31,7 @@ local.properties
 
 # node.js
 #
+src/utils/mmkv/
 node_modules/
 npm-debug.log
 yarn-error.log

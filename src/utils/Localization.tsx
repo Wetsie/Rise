@@ -130,7 +130,9 @@ export const mainAppTranslations = {
 		timeWillNotBeRecorded: "The time will not be recorded in statistics",
 
 		oops: "Oops!",
+		proVersionIsAlreadyActive: "Pro version is already active",
 		youHaveAlreadyPurchasedTheProVersion: "You have already purchased the pro version",
+		youHaventPurchasedProVersion: "You have not purchased the pro version yet",
 		somethingWentWrong: "Something went wrong",
 		notEnoughFunds: "Insufficient funds!",
 		operationSuccess: "Operation was successfully completed!",
@@ -238,7 +240,8 @@ export const mainAppTranslations = {
 
 		paidExtendedVersion: "Paid extended version",
 		freeLimitedVersion: "Free limited version",
-		updateVersion: "Upgrade to pro version",
+		updateVersion: "Upgrade",
+		restoreVersion: "Restore",
 		quitFromAccount: "Log out",
 		deleteAccount: "Delete account",
 	},
@@ -365,7 +368,9 @@ export const mainAppTranslations = {
 		timeWillNotBeRecorded: "Время не будет записано в статистику",
 
 		oops: "Упс!",
+		proVersionIsAlreadyActive: "Про версия уже активна",
 		youHaveAlreadyPurchasedTheProVersion: "Вы уже приобрели про версию",
+		youHaventPurchasedProVersion: "Вы не приобрели про версию",
 		somethingWentWrong: "Что-то пошло не так",
 		notEnoughFunds: "Недостаточно средств!",
 		operationSuccess: "Операция прошла успешно!",
@@ -477,7 +482,8 @@ export const mainAppTranslations = {
 		
 		paidExtendedVersion: "Платная расширенная версия",
 		freeLimitedVersion: "Бесплатная ограниченная версия",
-		updateVersion: "Улучшить до про версии",
+		updateVersion: "Улучшить",
+		restoreVersion: "Восстановить",
 		quitFromAccount: "Выйти из аккаунта",
 		deleteAccount: "Удалить аккаунт",
 	},
@@ -608,7 +614,9 @@ export const mainAppTranslations = {
 		timeWillNotBeRecorded: "El tiempo no se registrará en las estadísticas",
 
 		oops: "¡UPS!",
+		proVersionIsAlreadyActive: "La versión pro ya está activa",
 		youHaveAlreadyPurchasedTheProVersion: "Ya has comprado la versión pro",
+		youHaventPurchasedProVersion: "Aún no has comprado la versión pro",
 		somethingWentWrong: "Algo salió mal",
 		notEnoughFunds: "¡Fondos insuficientes!",
 		operationSuccess: "¡La operación se completó con éxito!",
@@ -716,7 +724,8 @@ export const mainAppTranslations = {
 
 		paidExtendedVersion: "Versión extendida de pago",
 		freeLimitedVersion: "Versión limitada gratuita",
-		updateVersion: "Actualizar a la versión pro",
+		updateVersion: "Mejorar",
+		restoreVersion: "Restaurar",
 		quitFromAccount: "Cerrar sesión",
 		deleteAccount: "Borrar cuenta",
 	},

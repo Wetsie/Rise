@@ -24,7 +24,7 @@ const screenOptions = ((props: {
 	lazy: true,
 	lazyPreloadDistance: 1,
 	lazyPlaceholder: () => <View style={styles.lazyPlaceholder} />,
-	swipeEnabled: false,
+	swipeEnabled: true,
 	tabBarPressColor: WHITE,
 	tabBarStyle: styles.tabBarStyle,
 	tabBarItemStyle: styles.tabBarItemStyle,

@@ -4,15 +4,16 @@ import I18n from "i18n-js";
 
 import CreateSvgView from "_components/molecules/create/CreateSvgView";
 import CustomText from "_components/atoms/CustomText";
-import { HOME_TOP_PADDING, PROFILE_DOT_SIZE, WIDTH_MINUS_PADDING } from "_styles/spacing";
+import { CONTENT_PADDING, HOME_TOP_PADDING, PROFILE_DOT_SIZE, WIDTH_MINUS_PADDING } from "_styles/spacing";
 import { DBLUE, GRAY } from "_styles/colors";
 import { FONT_SIZE_16, FONT_SIZE_20, FONT_SIZE_36 } from "_styles/typography";
-import { updateToProVersion } from "_utils/Constants";
+import { restoreProVersionPurchase, updateToProVersion } from "_utils/Constants";
 import RootContext from "_components/context/RootContext";
 import Toast from "react-native-toast-message";
 
 const MainSettingsVersionInfo = ({ VERSION_INFO_HEIGHT, UPDATE_VERSION_HEIGHT }: { VERSION_INFO_HEIGHT: number, UPDATE_VERSION_HEIGHT: number }): JSX.Element => {
-	const { proVersion } = useContext(RootContext).userInfo;
+	const { userInfo } = useContext(RootContext);
+	const { proVersion } = userInfo;
 
 	const proVersionIsAlreadyPurchased = () => {
 		Toast.show({
@@ -50,17 +51,30 @@ const MainSettingsVersionInfo = ({ VERSION_INFO_HEIGHT, UPDATE_VERSION_HEIGHT }:
 					/>
 				</View>
 			</View>
-			<Pressable
-				onPress={proVersion ? proVersionIsAlreadyPurchased : updateToProVersion}
-				style={styles.updateVersionContainer}
-			>
-				<CreateSvgView
-					width={WIDTH_MINUS_PADDING}
-					height={UPDATE_VERSION_HEIGHT}
-					color="#fff"
-				/>
-				<CustomText type="medium" style={styles.updateVersionText}>{I18n.t("updateVersion")}</CustomText>
-			</Pressable>
+			<View style={styles.manipulatorsContainer}>
+				<Pressable
+					onPress={proVersion ? proVersionIsAlreadyPurchased : updateToProVersion}
+					style={styles.updateVersionContainer}
+				>
+					<CreateSvgView
+						width={WIDTH_MINUS_PADDING / 2}
+						height={UPDATE_VERSION_HEIGHT}
+						color="#fff"
+					/>
+					<CustomText type="medium" style={styles.updateVersionText}>{I18n.t("updateVersion")}</CustomText>
+				</Pressable>
+				<Pressable
+					onPress={() => restoreProVersionPurchase(userInfo)}
+					style={styles.updateVersionContainer}
+				>
+					<CreateSvgView
+						width={WIDTH_MINUS_PADDING / 2 - CONTENT_PADDING}
+						height={UPDATE_VERSION_HEIGHT}
+						color="#fff"
+					/>
+					<CustomText type="medium" style={styles.updateVersionText}>{I18n.t("restoreVersion")}</CustomText>
+				</Pressable>
+			</View>
 		</View>
 	);
 };
@@ -68,6 +82,11 @@ const MainSettingsVersionInfo = ({ VERSION_INFO_HEIGHT, UPDATE_VERSION_HEIGHT }:
 const styles = StyleSheet.create({
 	versionInfoParentContainer: {
 		alignItems: "flex-end",
+	},
+
+	manipulatorsContainer: {
+		flexDirection: "row",
+		justifyContent: "space-between",
 	},
 
 	versionInfoContainer: {

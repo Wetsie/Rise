@@ -6,6 +6,7 @@ import { DBLUE } from "_styles/colors";
 import { UserInfo } from "./UserInfo";
 import { user, userDatabaseReference } from "./Firebase";
 import { setMmkvUserInfo } from "./mmkv/MmkvSetFunctions";
+import Toast from "react-native-toast-message";
 
 const PRO_VERSION_PRODUCT_ID = "proversion";
 const YOU_GOT_COINS = 4;
@@ -30,6 +31,40 @@ const defaultConfig: PushNotificationObject = {
 	userInfo: { id: 0 },
 };
 
+export const restoreProVersionPurchase = async (userInfo: UserInfo): Promise<void> => {
+	const { responseCode, results } = await InAppPurchases.getPurchaseHistoryAsync();
+
+	if (userInfo.proVersion) {
+		Toast.show({
+			type: "info",
+			position: "bottom",
+			text1: I18n.t("oops"),
+			text2: I18n.t("proVersionIsAlreadyActive"),
+		});
+		return;
+	}
+
+	if (responseCode === InAppPurchases.IAPResponseCode.OK && results?.length) {
+		setMmkvUserInfo({
+			...userInfo,
+			proVersion: true,
+		});
+		if (!user?.isAnonymous) {
+			userDatabaseReference.update({
+				proVersion: true,
+			});
+		}
+		RNRestart.Restart();
+	} else {
+		Toast.show({
+			type: "info",
+			position: "bottom",
+			text1: I18n.t("oops"),
+			text2: I18n.t("youHaventPurchasedProVersion"),
+		});
+	}
+};
+
 export const connectInAppPayments = async (userInfo: UserInfo): Promise<void> => {
 	await InAppPurchases.connectAsync();
 	
@@ -37,8 +72,6 @@ export const connectInAppPayments = async (userInfo: UserInfo): Promise<void> =>
 		if (responseCode === InAppPurchases.IAPResponseCode.OK) {
 			results?.forEach(purchase => {
 				if (!purchase.acknowledged) {
-					console.log("success");
-						
 					setMmkvUserInfo({
 						...userInfo,
 						proVersion: true,
@@ -49,7 +82,7 @@ export const connectInAppPayments = async (userInfo: UserInfo): Promise<void> =>
 						});
 					}
 
-					InAppPurchases.finishTransactionAsync(purchase, true);
+					InAppPurchases.finishTransactionAsync(purchase, false);
 					RNRestart.Restart();
 				}
 			});

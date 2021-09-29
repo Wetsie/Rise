@@ -6839,10 +6839,10 @@ react-native-modalize@^2.0.8:
   resolved "https://registry.yarnpkg.com/react-native-modalize/-/react-native-modalize-2.0.8.tgz#5dcb2c56d82e3dbd271582f832e7e02ae4cbb503"
   integrity sha512-OKdpFVExEe4YM2uFHL/aStS9p0JaC6gBupjaW1QVHkGq22T2ASYwkhDvTnMS8BLOLWPx2fC3xEBzOcn2rh7EYw==
 
-react-native-pager-view@^5.4.0:
-  version "5.4.0"
-  resolved "https://registry.yarnpkg.com/react-native-pager-view/-/react-native-pager-view-5.4.0.tgz#8e30a391a68da26e59f4ae724341b9208924b2ee"
-  integrity sha512-pYy3I8p5s6cPaymT1GibuDRHmicY3JdHHZyTH+Fra1S0wupaJhoZy33f2prrMJqQfk9kaqwCsb3pVmj4GuJTjA==
+react-native-pager-view@4.2.4:
+  version "4.2.4"
+  resolved "https://registry.yarnpkg.com/react-native-pager-view/-/react-native-pager-view-4.2.4.tgz#84bf9122e086e508904423d90b1cd628e0068ca8"
+  integrity sha512-UuOaaTsokKgutaC0SfE+kCD+vT/5N1JVQsbSRdzMvNq9KKj3Bic/j30R4Kevq6LraCWh/9rCc6EV/M4v/zZoBA==
 
 react-native-push-notification@^8.0.1:
   version "8.0.1"

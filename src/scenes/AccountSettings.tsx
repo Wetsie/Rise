@@ -81,8 +81,8 @@ const AccountSettingsScreen = (): JSX.Element => {
 			"",
 			I18n.t("logOutWarning"),
 			[
-				{ text: I18n.t("no") },
 				{ text: I18n.t("yes"), onPress: () => logOut(logOutCallback) },
+				{ text: I18n.t("no") },
 			],
 		);
 	};
@@ -92,8 +92,8 @@ const AccountSettingsScreen = (): JSX.Element => {
 			"",
 			I18n.t("deleteAccountWarning"),
 			[
-				{ text: I18n.t("no") },
 				{ text: I18n.t("yes"), onPress: () => deleteAccount(deleteAccountCallback) },
+				{ text: I18n.t("no") },
 			],
 		);
 	};

@@ -435,7 +435,7 @@ const App = (): JSX.Element => {
 				pomodoroCurrentBreakTime.value = 0;
 			}
 		}
-	}, [isTimerOn, activeModeIndex]);
+	}, [isTimerOn]);
 
 	useEffect(() => {
 		if (modeNavigation.value === "meditation") { // meditation mode timer progress

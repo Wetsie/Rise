@@ -3,7 +3,7 @@ import { PushNotificationObject } from "react-native-push-notification";
 import * as InAppPurchases from "expo-in-app-purchases";
 import RNRestart from "react-native-restart";
 import { DBLUE } from "_styles/colors";
-import { UserInfo } from "./UserInfo";
+import { UserInfo } from "./PropTypes";
 import { user, userDatabaseReference } from "./Firebase";
 import { setMmkvUserInfo } from "./mmkv/MmkvSetFunctions";
 import Toast from "react-native-toast-message";

@@ -5,7 +5,7 @@ import Animated from "react-native-reanimated";
 import { FileSystem } from "react-native-unimodules";
 import * as ImageManipulator from "expo-image-manipulator";
 import auth from "@react-native-firebase/auth";
-import { UserInfo } from "./UserInfo";
+import { UserInfo } from "./PropTypes";
 
 export const IMMERSIVE_MODE_SECONDS = 10000;
 export const LINKING_PREFIX = "rise://app/";

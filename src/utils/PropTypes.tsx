@@ -32,3 +32,17 @@ export interface GoBackProps {
 	GoBackLeftElem?: ({ color, onPress }: { color: Color, onPress: () => void }) => JSX.Element | null,
 	goBackText: string
 }
+
+export type UserInfo = {
+	firstName: string,
+	lastName: string,
+	dateOfBirth: string,
+	balance: number,
+	purchases: string[],
+	proVersion: boolean,
+	stat: {
+		focus: number,
+		meditation: number,
+		nap: number,
+	}
+}

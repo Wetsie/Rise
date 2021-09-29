@@ -32,6 +32,9 @@ local.properties
 # node.js
 #
 src/utils/mmkv/
+src/utils/Firebase.tsx
+src/utils/SoundsList.tsx
+src/utils/linking.tsx
 node_modules/
 npm-debug.log
 yarn-error.log

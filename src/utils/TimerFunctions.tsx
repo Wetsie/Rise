@@ -2,8 +2,9 @@ import { setMmkvUserInfo } from "./mmkv/MmkvSetFunctions";
 import PushNotification from "react-native-push-notification";
 import { youGotCoinsNotif } from "./Constants";
 import I18n from "i18n-js";
-import { UserInfo } from "./UserInfo";
+
 import { user, userDatabaseReference } from "./Firebase";
+import { UserInfo } from "./PropTypes";
 
 export const changeStat = (
 	newStat: number,

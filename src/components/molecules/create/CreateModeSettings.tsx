@@ -55,6 +55,7 @@ const CreateModeSettings = (): JSX.Element => {
 				withHandle={false}
 				onOverlayPress={onOverlayPress}
 				overlayStyle={styles.overlayStyle}
+				adjustToContentHeight={!(typeof arrayToMap[0] == "string")}
 				modalStyle={styles.modalStyle}
 				scrollViewProps={{
 					showsVerticalScrollIndicator: false,

@@ -1,14 +1,12 @@
 import React, { useRef, useContext } from "react";
 import { Modalize } from "react-native-modalize";
 import { useSharedValue } from "react-native-reanimated";
-import { Alert } from "react-native";
 import I18n from "i18n-js";
 
 import CreateModeSettingsContext from "_components/context/CreateModeSettingsContext";
 import RootContext from "_components/context/RootContext";
 import CreateModeSettings from "_components/molecules/create/CreateModeSettings";
 import { setBreakMinutes, setFocusFullImmersion, setFocusSleepModeDisabled, setLongBreakEvery, setLongBreakMinutes } from "_utils/mmkv/MmkvSetFunctions";
-import { IMMERSIVE_MODE_SECONDS } from "_utils/RootComponentUtils";
 import { useStateSafe } from "_utils/useStateSafe";
 
 const breakMinutesArrLength = 12;
@@ -56,14 +54,6 @@ const FocusSettings = (): JSX.Element => {
 	};
 
 	const fullImmersionPressFunc = (value: boolean) => {
-		if (!value) {
-			Alert.alert(
-				I18n.t("warning"),
-				I18n.t("immersiveModeAlert1") + " " + IMMERSIVE_MODE_SECONDS / 1000 + " " + I18n.t("immersiveModeAlert2"),
-				[{ text: "Ок" }],
-				{ cancelable: true }
-			);
-		}
 		setFocusFullImmersion(value);
 	};
 

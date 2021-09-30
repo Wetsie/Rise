@@ -1,10 +1,12 @@
+import I18n from "i18n-js";
 import React from "react";
 import { useContext } from "react";
-import { Dimensions, Pressable, StyleSheet } from "react-native";
+import { Dimensions, Pressable, StyleSheet, View } from "react-native";
 import Animated, { useDerivedValue } from "react-native-reanimated";
 import { ReText } from "react-native-redash";
 
 import CustomText from "_components/atoms/CustomText";
+import FullImmersionExplanation from "_components/atoms/modes/FullImmersionExplanation";
 import RootContext from "_components/context/RootContext";
 import { BLACK, GRAY } from "_styles/colors";
 import { CONTENT_PADDING } from "_styles/spacing";
@@ -35,7 +37,12 @@ const CreateModeOption = ({ item, onPress, index }: {
 	
 	return (
 		<Pressable disabled={isTimerOn} onPress={() => isToggleType ? null : onPress(text, index)} style={styles.mainContainer}>
-			<CustomText style={[styles.optionTextStyle, { textDecorationLine: isTimerOn ? "line-through" : "none", }]}>{text}</CustomText>
+			<View style={styles.fullImmersion}>
+				<CustomText style={[styles.optionTextStyle, { textDecorationLine: isTimerOn ? "line-through" : "none", }]}>{text}</CustomText>
+				{
+					text === I18n.t("fullImmersion") && <FullImmersionExplanation />
+				}
+			</View>
 			{
 				isToggleType ?
 					<ReanimatedSwitchToggle
@@ -60,6 +67,11 @@ const styles = StyleSheet.create({
 		justifyContent: "space-between",
 		alignItems: "center",
 		flexDirection: "row",
+	},
+
+	fullImmersion: {
+		flexDirection: "row",
+		alignItems: "center",
 	},
 
 	optionDataTextStyle: {

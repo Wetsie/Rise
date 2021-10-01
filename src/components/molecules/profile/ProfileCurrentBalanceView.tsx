@@ -12,7 +12,7 @@ import Toast from "react-native-toast-message";
 import RootContext from "_components/context/RootContext";
 
 const ProfileCurrentBalanceView = (): JSX.Element => {
-	const { balance } = useContext(RootContext).userInfo;
+	const { balance, proVersion } = useContext(RootContext).userInfo;
 
 	const showInfoAboutBalance = () => {
 		Toast.show({
@@ -36,7 +36,9 @@ const ProfileCurrentBalanceView = (): JSX.Element => {
 						alignItems: "center",
 						flexDirection: "row",
 					},
-					firstElem: <CustomText numberOfLines={1} type="medium" style={styles.currentBalanceValText}>{balance}</CustomText>,
+					firstElem: <CustomText numberOfLines={1} type="medium" style={styles.currentBalanceValText}>
+						{proVersion ? "∞" : balance}
+					</CustomText>,
 					secondElem: <Coin />,
 				}}
 			/>

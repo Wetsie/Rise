@@ -633,7 +633,7 @@ export const mainAppTranslations = {
 		userDisabledErr: "El usuario ha sido deshabilitado",
 		noInternetConnectionErr: "¡Sin conexión a Internet!",
 		immersiveModeAlert1: "Cuando salga de la aplicación, después de",
-		immersiveModeAlert2: "segundos, el temporizador se apagará automáticamente",
+		immersiveModeAlert2: "s., el temporizador se apagará automáticamente",
 
 		authIntroduction1: "Rise es su asistente de control de productividad...",
 		authIntroduction2: "...para ayudarlo a concentrarse y relajarse.",

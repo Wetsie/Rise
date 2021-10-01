@@ -24,7 +24,7 @@ const FullImmersionExplanation = (): JSX.Element => {
 				() => Toast.show({
 					type: "info",
 					position: "bottom",
-					text1: I18n.t("warning"),
+					text1: I18n.t("fullImmersion"),
 					text2: I18n.t("immersiveModeAlert1") + " " + IMMERSIVE_MODE_SECONDS / 1000 + " " + I18n.t("immersiveModeAlert2"),
 				})
 			}

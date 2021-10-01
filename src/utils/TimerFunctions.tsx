@@ -12,11 +12,12 @@ export const changeStat = (
 	userInfo: UserInfo,
 	setUserInfo: React.Dispatch<React.SetStateAction<UserInfo>>
 ): void => {
+	const { proVersion, balance } = userInfo;
 	const { focus, meditation, nap } = userInfo.stat;
 	const newFocusStat = mode === "focus" ? focus + newStat : focus;
 	const newMeditationStat = mode === "meditation" ? meditation + newStat : meditation;
 	const newNapStat = mode === "nap" ? nap + newStat : nap;
-	const newBalance = Math.floor((newFocusStat + newMeditationStat + newNapStat) / 60) * 100;
+	const newBalance = proVersion ? balance : Math.floor((newFocusStat + newMeditationStat + newNapStat) / 60) * 100;
 
 	if (newBalance > userInfo.balance) {
 		PushNotification.localNotification({

@@ -3,6 +3,7 @@ import { FlatList, StyleSheet } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Modal from "react-native-modal";
 import { useNavigation } from "@react-navigation/native";
+import ExtraDimensions from "react-native-extra-dimensions-android";
 import { Audio } from "expo-av";
 import I18n from "i18n-js";
 
@@ -118,6 +119,7 @@ const ModeSounds = (): JSX.Element => {
 					numColumns={2}
 				/>
 				<Modal
+					deviceHeight={ExtraDimensions.getRealWindowHeight()}
 					isVisible={modalVisible}
 					backdropColor={BLACK}
 					onBackButtonPress={closeModal}

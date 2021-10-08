@@ -191,8 +191,8 @@ export const mainAppTranslations = {
 		howToGetCoins2: "You get 100 coins for 1 hour of using any mode",
 
 		shopMainCategory: "General",
-		shopDownloadButton: "Upload",
-		shopDownloadedButton: "Uploaded",
+		shopDownloadButton: "Download",
+		shopDownloadedButton: "Downloaded",
 
 		timer: "Timer",
 		pomodoro: "Pomodoro",
@@ -675,8 +675,8 @@ export const mainAppTranslations = {
 		howToGetCoins2: "Obtienes 100 monedas por 1 hora de usar cualquier modo",
 
 		shopMainCategory: "General",
-		shopDownloadButton: "Subir",
-		shopDownloadedButton: "Subido",
+		shopDownloadButton: "Descargar",
+		shopDownloadedButton: "Descargado",
 
 		timer: "Temporizador",
 		pomodoro: "Pomodoro",

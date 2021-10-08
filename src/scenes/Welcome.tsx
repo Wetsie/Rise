@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-var-requires */
 import React, { useContext } from "react";
 import { Dimensions, StyleSheet, View, Pressable, Platform, BackHandler } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -19,6 +20,7 @@ import RootContext from "_components/context/RootContext";
 import { setMmkvIsSignedIn, setMmkvProfileImage, setMmkvUploadProfileImageToServer, setMmkvUserInfo } from "_utils/mmkv/MmkvSetFunctions";
 import { pickProfileImage } from "_utils/ImagePicker";
 import { user, userDatabaseReference } from "_utils/Firebase";
+import { Asset } from "expo-asset";
 
 const elemHeight = scaleSize(56);
 const { width } = Dimensions.get("window");
@@ -89,31 +91,45 @@ const Welcome = (): JSX.Element => {
 				nap: 0,
 			}
 		});
-		if (!user?.isAnonymous) {
-			userDatabaseReference.update({
-				firstName: capitName,
-				lastName: capitSurname,
-				dateOfBirth: (birthdate as Date).toLocaleDateString(),
-				balance: 0,
-				purchases: ["undefined"],
-				proVersion: false,
-				stat: {
-					focus: 0,
-					meditation: 0,
-					nap: 0,
-				}
-			});
-
-			setUploadProfileImageToServer(true);
-			setMmkvUploadProfileImageToServer(true);
+		if (profileImageUri !== "") {
+			if (!user?.isAnonymous) {
+				userDatabaseReference.update({
+					firstName: capitName,
+					lastName: capitSurname,
+					dateOfBirth: (birthdate as Date).toLocaleDateString(),
+					balance: 0,
+					purchases: ["undefined"],
+					proVersion: false,
+					stat: {
+						focus: 0,
+						meditation: 0,
+						nap: 0,
+					}
+				});
+	
+				setUploadProfileImageToServer(true);
+				setMmkvUploadProfileImageToServer(true);
+			} else {
+				const manipResult = await ImageManipulator.manipulateAsync(
+					profileImageUri,
+					[],
+					{ compress: 1, format: ImageManipulator.SaveFormat.JPEG }
+				);
+				setProfileImage(manipResult);
+				setMmkvProfileImage(manipResult);
+			}
 		} else {
-			const manipResult = await ImageManipulator.manipulateAsync(
-				profileImageUri,
-				[],
-				{ compress: 1, format: ImageManipulator.SaveFormat.JPEG }
-			);
-			setProfileImage(manipResult);
-			setMmkvProfileImage(manipResult);
+			const image = Asset.fromModule(require("_assets/images/ProfilePlaceholder.jpg"));
+			await image.downloadAsync()
+				.then(async () => {
+					const manipResult = await ImageManipulator.manipulateAsync(
+						image.localUri || image.uri,
+						[],
+						{ compress: 1, format: ImageManipulator.SaveFormat.JPEG }
+					);
+					setProfileImage(manipResult);
+					setMmkvProfileImage(manipResult);
+				});
 		}
 		setMmkvIsSignedIn(true);
 		setIsSignedIn(true);
@@ -125,7 +141,8 @@ const Welcome = (): JSX.Element => {
 				<FastImage
 					source={
 						profileImageUri === "" ?
-							require("_assets/images/ProfilePlaceholder.jpg") : {
+							require("_assets/images/ProfilePlaceholder.jpg") :
+							{
 								uri: profileImageUri
 							}
 					}
@@ -180,7 +197,7 @@ const Welcome = (): JSX.Element => {
 			</Pressable>
 			<Pressable
 				style={styles.buttonContainer}
-				disabled={name === "" || surname === "" || profileImageUri === "" || !birthdate}
+				disabled={name === "" || surname === "" || !birthdate}
 				onPress={onPress}
 			>
 				<View style={styles.authButton}>

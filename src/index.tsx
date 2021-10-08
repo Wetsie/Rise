@@ -41,7 +41,8 @@ import {
 	getSwipeTextSize,
 	getUploadProfileImageToServer,
 	getUserInfo,
-	getVolume
+	getVolume,
+	getWasAlarmsLoaded
 } from "_utils/mmkv/MmkvGetFunctions";
 import { mainAppTranslations } from "_utils/Localization";
 import { firebaseConfig } from "_utils/Firebase";
@@ -53,10 +54,9 @@ import googleServices from "../android/app/google-services.json";
 import FetchDataContext from "_components/context/FetchDataContext";
 import FetchData from "_components/molecules/FetchData";
 import { changeStat } from "_utils/TimerFunctions";
-import { setMmkvSystemAlarmsObject, setWasHappyBirthdayToggled } from "_utils/mmkv/MmkvSetFunctions";
+import { setMmkvWasAlarmsLoaded, setWasHappyBirthdayToggled } from "_utils/mmkv/MmkvSetFunctions";
 import { FOCUS_IMMERSIVE_MODE_HANDLER_KEY, MAIN_CHANNEL_NAME, MAIN_CHANNEL_ID, focusEndedAheadOfTimeNotif, napEndedAheadOfTimeNotif, meditationEndedAheadOfTimeNotif, connectInAppPayments } from "_utils/Constants";
 import { AppStateService } from "_utils/AppStateService";
-import AlarmModule from "_utils/nativeModules/AlarmModule";
 
 LogBox.ignoreLogs(["Constants.manifest", "Require cycles are allowed", "Cannot complete operation because sound is not loaded", "Constants.installationId", "Constants.deviceId", "Constants.linkingUrl"]);
 
@@ -101,12 +101,13 @@ const exhale = I18n.t("exhale");
 const App = (): JSX.Element => {
 	const [wasModeEndedAheadOfTime, setWasModeEndedAheadOfTime] = useStateSafe(true);
 	const [immersiveModeTimerId, setImmersiveModeTimerId] = useStateSafe(0);
+	const [wasAlarmsLoaded, setWasAlarmsLoaded] = useStateSafe(getWasAlarmsLoaded());
 	const [profileImageProgress, setProfileImageProgress] = useStateSafe(0);
 	const [profileImage, setProfileImage] = useStateSafe<ImageManipulator.ImageResult | null>(getProfileImage());
 	const [profileImageUri, setProfileImageUri] = useStateSafe(getProfileImageUri());
 	const [uploadProfileImageToServer, setUploadProfileImageToServer] = useStateSafe(getUploadProfileImageToServer());
 	const [isSignedIn, setIsSignedIn] = useStateSafe(getIsSignedIn());
-	const [systemAlarmsObject, setSystemAlarmsObject] = useStateSafe<Record<string, string>>(getMmkvSystemAlarmsObject());
+	const [systemAlarmsObject, setSystemAlarmsObject] = useStateSafe(getMmkvSystemAlarmsObject());
 	const [isLoaded, setIsLoaded] = useStateSafe(false);
 	const [swipeTextSize, setSwipeTextSize] = useStateSafe(getSwipeTextSize());
 	const [activeModeIndex, setActiveModeIndex] = useStateSafe(getFocusActiveMode());
@@ -280,15 +281,18 @@ const App = (): JSX.Element => {
 	//#region lifecycle 
 	useEffect(() => {
 		if (isSignedIn) {
-			if (!Object.keys(systemAlarmsObject).length) {
-				AlarmModule.getAlarms(data => {
-					setSystemAlarmsObject(data);
-					setMmkvSystemAlarmsObject(data);
-				});
-			}
 			connectInAppPayments(userInfo);
 		}
 	}, [isSignedIn]);
+
+	useEffect(() => {
+		console.log("triggered");
+		if (Object.keys(systemAlarmsObject).length) {
+			setWasAlarmsLoaded(true);
+			setMmkvWasAlarmsLoaded(true);
+			console.log("loaded");
+		}
+	}, [systemAlarmsObject]);
 
 	useEffect(() => { // custom app state listener
 		AppState.addEventListener(
@@ -507,10 +511,11 @@ const App = (): JSX.Element => {
 	}, [isTimerOn]);
 	//#endregion
 
-	if ((!Object.keys(systemAlarmsObject).length || !swipeTextSize || uploadProfileImageToServer) && isSignedIn) {
+	if ((!wasAlarmsLoaded || !swipeTextSize || uploadProfileImageToServer) && isSignedIn) {
 		return (
 			<FetchDataContext.Provider
 				value={{
+					setSystemAlarmsObject,
 					setSwipeTextSize,
 					setProfileImageProgress,
 					setProfileImage,

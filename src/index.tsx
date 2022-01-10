@@ -286,11 +286,9 @@ const App = (): JSX.Element => {
 	}, [isSignedIn]);
 
 	useEffect(() => {
-		console.log("triggered");
 		if (Object.keys(systemAlarmsObject).length) {
 			setWasAlarmsLoaded(true);
 			setMmkvWasAlarmsLoaded(true);
-			console.log("loaded");
 		}
 	}, [systemAlarmsObject]);
 

@@ -130,6 +130,7 @@ export const mainAppTranslations = {
 		timeWillNotBeRecorded: "The time will not be recorded in statistics",
 
 		oops: "Oops!",
+		noProfilePhoto: "You have not selected a profile photo",
 		proVersionIsAlreadyActive: "Pro version is already active",
 		youHaveAlreadyPurchasedTheProVersion: "You have already purchased the pro version",
 		youHaventPurchasedProVersion: "You have not purchased the pro version yet",
@@ -368,6 +369,7 @@ export const mainAppTranslations = {
 		timeWillNotBeRecorded: "Время не будет записано в статистику",
 
 		oops: "Упс!",
+		noProfilePhoto: "Вы не выбрали фотографию профиля",
 		proVersionIsAlreadyActive: "Про версия уже активна",
 		youHaveAlreadyPurchasedTheProVersion: "Вы уже приобрели про версию",
 		youHaventPurchasedProVersion: "Вы не приобрели про версию",
@@ -614,6 +616,7 @@ export const mainAppTranslations = {
 		timeWillNotBeRecorded: "El tiempo no se registrará en las estadísticas",
 
 		oops: "¡UPS!",
+		noProfilePhoto: "No has seleccionado una foto de perfil",
 		proVersionIsAlreadyActive: "La versión pro ya está activa",
 		youHaveAlreadyPurchasedTheProVersion: "Ya has comprado la versión pro",
 		youHaventPurchasedProVersion: "Aún no has comprado la versión pro",

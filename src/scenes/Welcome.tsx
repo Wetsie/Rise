@@ -20,7 +20,7 @@ import RootContext from "_components/context/RootContext";
 import { setMmkvIsSignedIn, setMmkvProfileImage, setMmkvUploadProfileImageToServer, setMmkvUserInfo } from "_utils/mmkv/MmkvSetFunctions";
 import { pickProfileImage } from "_utils/ImagePicker";
 import { user, userDatabaseReference } from "_utils/Firebase";
-import { Asset } from "expo-asset";
+import Toast from "react-native-toast-message";
 
 const elemHeight = scaleSize(56);
 const { width } = Dimensions.get("window");
@@ -62,6 +62,16 @@ const Welcome = (): JSX.Element => {
 	};
 
 	const onPress = async () => {
+		if (profileImageUri === "") {
+			Toast.show({
+				type: "error",
+				position: "bottom",
+				text1: I18n.t("oops"),
+				text2: I18n.t("noProfilePhoto"),
+			});
+			return;
+		}
+
 		const capitName = name[0].toUpperCase() + name.substring(1);
 		const capitSurname = surname[0].toUpperCase() + surname.substring(1);
 		
@@ -91,45 +101,31 @@ const Welcome = (): JSX.Element => {
 				nap: 0,
 			}
 		});
-		if (profileImageUri !== "") {
-			if (!user?.isAnonymous) {
-				userDatabaseReference.update({
-					firstName: capitName,
-					lastName: capitSurname,
-					dateOfBirth: (birthdate as Date).toLocaleDateString(),
-					balance: 0,
-					purchases: ["undefined"],
-					proVersion: false,
-					stat: {
-						focus: 0,
-						meditation: 0,
-						nap: 0,
-					}
-				});
+		if (!user?.isAnonymous) {
+			userDatabaseReference.update({
+				firstName: capitName,
+				lastName: capitSurname,
+				dateOfBirth: (birthdate as Date).toLocaleDateString(),
+				balance: 0,
+				purchases: ["undefined"],
+				proVersion: false,
+				stat: {
+					focus: 0,
+					meditation: 0,
+					nap: 0,
+				}
+			});
 	
-				setUploadProfileImageToServer(true);
-				setMmkvUploadProfileImageToServer(true);
-			} else {
-				const manipResult = await ImageManipulator.manipulateAsync(
-					profileImageUri,
-					[],
-					{ compress: 1, format: ImageManipulator.SaveFormat.JPEG }
-				);
-				setProfileImage(manipResult);
-				setMmkvProfileImage(manipResult);
-			}
+			setUploadProfileImageToServer(true);
+			setMmkvUploadProfileImageToServer(true);
 		} else {
-			const image = Asset.fromModule(require("_assets/images/ProfilePlaceholder.jpg"));
-			await image.downloadAsync()
-				.then(async () => {
-					const manipResult = await ImageManipulator.manipulateAsync(
-						image.localUri || image.uri,
-						[],
-						{ compress: 1, format: ImageManipulator.SaveFormat.JPEG }
-					);
-					setProfileImage(manipResult);
-					setMmkvProfileImage(manipResult);
-				});
+			const manipResult = await ImageManipulator.manipulateAsync(
+				profileImageUri,
+				[],
+				{ compress: 1, format: ImageManipulator.SaveFormat.JPEG }
+			);
+			setProfileImage(manipResult);
+			setMmkvProfileImage(manipResult);
 		}
 		setMmkvIsSignedIn(true);
 		setIsSignedIn(true);
@@ -196,18 +192,16 @@ const Welcome = (): JSX.Element => {
 				</CustomText>
 			</Pressable>
 			<Pressable
-				style={styles.buttonContainer}
+				style={[styles.buttonContainer, styles.authButton]}
 				disabled={name === "" || surname === "" || !birthdate}
 				onPress={onPress}
 			>
-				<View style={styles.authButton}>
-					<CreateSvgView
-						width={scaleSize(302)}
-						height={scaleSize(56)}
-						color={DBLUE}
-					/>
-					<CustomText style={styles.authButtonText}>{I18n.t("completeRegistration")}</CustomText>
-				</View>
+				<CreateSvgView
+					width={scaleSize(302)}
+					height={scaleSize(56)}
+					color={DBLUE}
+				/>
+				<CustomText style={styles.authButtonText}>{I18n.t("completeRegistration")}</CustomText>
 			</Pressable>
 			{
 				datePickerShow && 

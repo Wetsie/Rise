@@ -1,5 +1,5 @@
-import React, { useContext } from "react";
-import { Dimensions, Image, Pressable, StyleSheet, Alert } from "react-native";
+import React from "react";
+import { Dimensions, Pressable, StyleSheet, Alert, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Animated, { useAnimatedGestureHandler, useAnimatedStyle, useSharedValue, withDecay } from "react-native-reanimated";
 import { clamp } from "react-native-redash";
@@ -16,11 +16,10 @@ import MainSettingsVersionInfo from "_components/molecules/profile/main-settings
 import MainSettingsBirthdateName from "_components/molecules/profile/main-settings/MainSettingsBirthdateName";
 import CustomText from "_components/atoms/CustomText";
 import { FONT_SIZE_20 } from "_styles/typography";
-import RootContext from "_components/context/RootContext";
 import { deleteAccount, logOut } from "_utils/Firebase";
-import { setMmkvIsSignedIn, setMmkvProfileImageUri } from "_utils/mmkv/MmkvSetFunctions";
+import { setMmkvIsSignedIn } from "_utils/mmkv/MmkvSetFunctions";
 import { MMKV } from "react-native-mmkv";
-import { isSignedInKey, profileImageKey, profileImageUriKey, userInfoKey } from "_utils/mmkv/MmkvKeys";
+import { isSignedInKey, userInfoKey } from "_utils/mmkv/MmkvKeys";
 
 const ASafeAreaView = Animated.createAnimatedComponent(SafeAreaView);
 const { height } = Dimensions.get("window");
@@ -30,7 +29,6 @@ const IMAGE_PADDING = HOME_TOP_PADDING / 1.5 + HOME_TOP_PADDING;
 const CLAMP_HEIGHT = height / 4;
 
 const AccountSettingsScreen = (): JSX.Element => {
-	const { profileImage } = useContext(RootContext);
 	const navigation = useNavigation();
 	const translateY = useSharedValue(0);
 
@@ -63,16 +61,13 @@ const AccountSettingsScreen = (): JSX.Element => {
 	});
 
 	const logOutCallback = () => {
-		setMmkvProfileImageUri("");
 		setMmkvIsSignedIn(false);
 		RNRestart.Restart();
 	};
 
 	const deleteAccountCallback = () => {
 		MMKV.delete(userInfoKey);
-		MMKV.delete(profileImageUriKey);
 		MMKV.delete(isSignedInKey);
-		MMKV.delete(profileImageKey);
 		RNRestart.Restart();
 	};
 	
@@ -99,37 +94,26 @@ const AccountSettingsScreen = (): JSX.Element => {
 	};
 
 	return (
-		<PanGestureHandler onGestureEvent={onGestureEvent}>
-			<ASafeAreaView style={styles.mainScreen}>
-				<CreateGoBackView
-					goBackText={I18n.t("settingsAccount")}
-					style={styles.goBackStyle}
+		<SafeAreaView style={styles.mainScreen}>
+			<CreateGoBackView goBackText={I18n.t("settingsAccount")} />
+			<View style={styles.content}>
+				<Pressable onPress={() => navigation.navigate("ChangeUserInfo")} style={styles.changeUserInfo}>
+					<MainSettingsBirthdateName />
+				</Pressable>
+				<MainSettingsVersionInfo
+					VERSION_INFO_HEIGHT={VERSION_INFO_HEIGHT}
+					UPDATE_VERSION_HEIGHT={UPDATE_VERSION_HEIGHT}
 				/>
-				<Animated.View style={swipeStyle}>
-					<Pressable onPress={() => navigation.navigate("ChangeUserInfo")} style={{ alignItems: "center" }}>
-						<Image
-							source={{
-								uri: profileImage?.uri ?? "",
-							}}
-							style={styles.imageStyle}
-						/>
-						<MainSettingsBirthdateName />
-					</Pressable>
-					<MainSettingsVersionInfo
-						VERSION_INFO_HEIGHT={VERSION_INFO_HEIGHT}
-						UPDATE_VERSION_HEIGHT={UPDATE_VERSION_HEIGHT}
-					/>
-					<CustomText
-						onPress={logOutAlert}
-						style={styles.accountQuitText}
-					>{I18n.t("quitFromAccount")}</CustomText>
-					<CustomText
-						onPress={deleteAccountAlert}
-						style={styles.accountDeleteText}
-					>{I18n.t("deleteAccount")}</CustomText>
-				</Animated.View>
-			</ASafeAreaView>
-		</PanGestureHandler>
+				<CustomText
+					onPress={logOutAlert}
+					style={styles.accountQuitText}
+				>{I18n.t("quitFromAccount")}</CustomText>
+				<CustomText
+					onPress={deleteAccountAlert}
+					style={styles.accountDeleteText}
+				>{I18n.t("deleteAccount")}</CustomText>
+			</View>
+		</SafeAreaView>
 	);
 };
 
@@ -137,11 +121,17 @@ const styles = StyleSheet.create({
 	mainScreen: {
 		paddingTop: -STATUS_HEIGHT,
 		backgroundColor: WHITE,
-		height: height + CLAMP_HEIGHT * 2,
+		height,
 	},
 
-	goBackStyle: {
-		zIndex: 1,
+	content: {
+		justifyContent: "center",
+		alignItems: "center",
+		flex: 1,
+	},
+
+	changeUserInfo: {
+		alignItems: "center",
 	},
 
 	imageStyle: {

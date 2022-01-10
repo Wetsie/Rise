@@ -10,14 +10,14 @@ import Registration from "_scenes/Registration";
 import Welcome from "_scenes/Welcome";
 import { navigateLinking } from "_utils/linking";
 import RootContext from "_components/context/RootContext";
-import { setMmkvIsSignedIn, setMmkvUploadProfileImageToServer, setMmkvUserInfo } from "_utils/mmkv/MmkvSetFunctions";
+import { setMmkvIsSignedIn, setMmkvUserInfo } from "_utils/mmkv/MmkvSetFunctions";
 import { userDatabaseReference } from "_utils/Firebase";
 
 const { width, height } = Dimensions.get("window");
 const TopTab = createMaterialTopTabNavigator();
 
 const AuthNavigator = (): JSX.Element => {
-	const { setIsSignedIn, setUserInfo, setUploadProfileImageToServer } = useContext(RootContext);
+	const { setIsSignedIn, setUserInfo } = useContext(RootContext);
 
 	useEffect(() => {
 		auth().onAuthStateChanged(async (user) => {
@@ -28,8 +28,6 @@ const AuthNavigator = (): JSX.Element => {
 					setUserInfo(userData);
 					setMmkvUserInfo(userData);
 
-					setUploadProfileImageToServer(true);
-					setMmkvUploadProfileImageToServer(true);
 					setMmkvIsSignedIn(true);
 					setIsSignedIn(true);
 				} else {

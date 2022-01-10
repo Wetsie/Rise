@@ -12,13 +12,7 @@ const RootContext = React.createContext<ModesRelatedType>({
 	onMeditationFinish: () => null,
 	pomodoroCurrentBreakTime: { value: 0 },
 	meditationMode: { value: I18n.t("inhale") },
-
-	setProfileImage: () => null,
-
-	setUploadProfileImageToServer: () => null,
-	profileImageUri: "",
-	setProfileImageUri: () => null,
-	profileImage: null,
+	
 	userInfo: {
 		firstName: "",
 		lastName: "",

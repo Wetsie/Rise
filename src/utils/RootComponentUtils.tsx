@@ -97,12 +97,6 @@ export interface ModesRelatedType {
 	pomodoroCurrentBreakTime: Animated.SharedValue<number>,
 	meditationMode: Animated.SharedValue<string>,
 	
-	setProfileImage: React.Dispatch<React.SetStateAction<ImageManipulator.ImageResult | null>>,
-
-	setUploadProfileImageToServer: React.Dispatch<React.SetStateAction<boolean>>,
-	profileImageUri: string,
-	setProfileImageUri: React.Dispatch<React.SetStateAction<string>>,
-	profileImage: ImageManipulator.ImageResult | null,
 	userInfo: UserInfo,
 	setUserInfo: React.Dispatch<React.SetStateAction<UserInfo>>
 	isSignedIn: boolean,

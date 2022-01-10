@@ -2,7 +2,7 @@ import React from "react";
 import { StyleSheet, View } from "react-native";
 
 import { BLACK, GRAY } from "_styles/colors";
-import { CONTENT_PADDING, HOME_TOP_PADDING } from "_styles/spacing";
+import { CONTENT_PADDING, HOME_TOP_PADDING, WIDTH_MINUS_PADDING } from "_styles/spacing";
 import ProfileElementsView from "_components/atoms/ProfileElementsView";
 import { FONT_SIZE_14, FONT_SIZE_20 } from "_styles/typography";
 import { ViewStyle } from "react-native";
@@ -51,12 +51,12 @@ const styles = StyleSheet.create({
 	},
 
 	userInfo: {
-		width: "100%",
+		width: WIDTH_MINUS_PADDING,
 		position: "absolute",
 		flexDirection: "row",
 		justifyContent: "space-between",
-		alignItems: "center",
 		paddingHorizontal: CONTENT_PADDING,
+		alignItems: "center",
 	},
 
 	name: {

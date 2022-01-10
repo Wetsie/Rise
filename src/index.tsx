@@ -7,7 +7,6 @@ import firebase from "@react-native-firebase/app";
 import BackgroundTimer from "react-native-background-timer";
 import { activateKeepAwake, deactivateKeepAwake } from "expo-keep-awake";
 import { Audio } from "expo-av";
-import * as ImageManipulator from "expo-image-manipulator";
 import I18n from "i18n-js";
 import { GoogleSignin } from "@react-native-google-signin/google-signin";
 import PushNotification from "react-native-push-notification";
@@ -35,11 +34,8 @@ import {
 	getMeditationVibration,
 	getMmkvSystemAlarmsObject,
 	getNapSleepModeDisabled,
-	getProfileImage,
-	getProfileImageUri,
 	getRingtone,
 	getSwipeTextSize,
-	getUploadProfileImageToServer,
 	getUserInfo,
 	getVolume,
 	getWasAlarmsLoaded
@@ -102,10 +98,6 @@ const App = (): JSX.Element => {
 	const [wasModeEndedAheadOfTime, setWasModeEndedAheadOfTime] = useStateSafe(true);
 	const [immersiveModeTimerId, setImmersiveModeTimerId] = useStateSafe(0);
 	const [wasAlarmsLoaded, setWasAlarmsLoaded] = useStateSafe(getWasAlarmsLoaded());
-	const [profileImageProgress, setProfileImageProgress] = useStateSafe(0);
-	const [profileImage, setProfileImage] = useStateSafe<ImageManipulator.ImageResult | null>(getProfileImage());
-	const [profileImageUri, setProfileImageUri] = useStateSafe(getProfileImageUri());
-	const [uploadProfileImageToServer, setUploadProfileImageToServer] = useStateSafe(getUploadProfileImageToServer());
 	const [isSignedIn, setIsSignedIn] = useStateSafe(getIsSignedIn());
 	const [systemAlarmsObject, setSystemAlarmsObject] = useStateSafe(getMmkvSystemAlarmsObject());
 	const [isLoaded, setIsLoaded] = useStateSafe(false);
@@ -509,18 +501,12 @@ const App = (): JSX.Element => {
 	}, [isTimerOn]);
 	//#endregion
 
-	if ((!wasAlarmsLoaded || !swipeTextSize || uploadProfileImageToServer) && isSignedIn) {
+	if ((!wasAlarmsLoaded || !swipeTextSize) && isSignedIn) {
 		return (
 			<FetchDataContext.Provider
 				value={{
 					setSystemAlarmsObject,
 					setSwipeTextSize,
-					setProfileImageProgress,
-					setProfileImage,
-					setUploadProfileImageToServer,
-					profileImageProgress,
-					uploadProfileImageToServer,
-					profileImageUri,
 				}}
 			>
 				<FetchData />
@@ -541,12 +527,6 @@ const App = (): JSX.Element => {
 					pomodoroCurrentBreakTime,
 					meditationMode,
 
-					setProfileImage,
-
-					setUploadProfileImageToServer,
-					profileImageUri,
-					setProfileImageUri,
-					profileImage,
 					userInfo,
 					setUserInfo,
 					isSignedIn,
